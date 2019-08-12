@@ -28,16 +28,20 @@ class App extends Component {
   sortByTicker = () => {
     this.setState(prevState => {
       let stocks = [...prevState.stocks]
+      let portfolio = [...prevState.portfolio]
       let sortedStocks = stocks.sort((a, b) => (a.ticker > b.ticker) ? 1 : -1)
-      return { stocks: sortedStocks }
+      let sortedPortfolio = portfolio.sort((a, b) => (a.ticker > b.ticker) ? 1 : -1)
+      return { stocks: sortedStocks, portfolio: sortedPortfolio }
     })
   }
 
   sortByPrice = () => {
     this.setState(prevState => {
       let stocks = [...prevState.stocks]
+      let portfolio = [...prevState.portfolio]
       let sortedStocks = stocks.sort((a, b) => (a.price > b.price) ? 1 : -1)
-      return { stocks: sortedStocks }
+      let sortedPortfolio = portfolio.sort((a, b) => (a.price > b.price) ? 1 : -1)
+      return { stocks: sortedStocks, portfolio: sortedPortfolio }
     })
   }
 

@@ -13,12 +13,12 @@ class MainContainer extends Component {
         <SearchBar sortByPrice={this.props.sortByPrice} sortByTicker={this.props.sortByTicker} />
 
         <div className="row">
-          <div className="col-8">
+          <div className="col-6">
 
             <StockContainer stocks={this.props.allStocks.stocks} handleBuyStock={this.props.handleBuyStock} />
 
           </div>
-          <div className="col-4">
+          <div className="col-6">
 
             <PortfolioContainer stocks={this.props.allStocks.portfolio} handleSellStock={this.props.handleSellStock} />
 
