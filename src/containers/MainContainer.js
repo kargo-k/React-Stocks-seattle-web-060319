@@ -10,7 +10,10 @@ class MainContainer extends Component {
   render() {
     return (
       <div>
-        <SearchBar sortByPrice={this.props.sortByPrice} sortByTicker={this.props.sortByTicker} />
+        <SearchBar
+          sortByPrice={this.props.sortByPrice}
+          sortByTicker={this.props.sortByTicker}
+          filterStocks={this.props.filterStocks} />
 
         <div className="row">
           <div className="col-6">
