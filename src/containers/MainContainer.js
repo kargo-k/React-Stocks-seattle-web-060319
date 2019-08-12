@@ -5,23 +5,25 @@ import SearchBar from '../components/SearchBar'
 
 class MainContainer extends Component {
 
+
+
   render() {
     return (
       <div>
-        <SearchBar/>
+        <SearchBar onChange={this.props.onChange} />
 
-          <div className="row">
-            <div className="col-8">
+        <div className="row">
+          <div className="col-8">
 
-              <StockContainer/>
+            <StockContainer stocks={this.props.allStocks.stocks} handleBuyStock={this.props.handleBuyStock} />
 
-            </div>
-            <div className="col-4">
-
-              <PortfolioContainer/>
-
-            </div>
           </div>
+          <div className="col-4">
+
+            <PortfolioContainer stocks={this.props.allStocks.portfolio} handleSellStock={this.props.handleSellStock} />
+
+          </div>
+        </div>
       </div>
     );
   }
