@@ -25,6 +25,22 @@ class App extends Component {
       })
   }
 
+  sortByTicker = () => {
+    this.setState(prevState => {
+      let stocks = [...prevState.stocks]
+      let sortedStocks = stocks.sort((a, b) => (a.ticker > b.ticker) ? 1 : -1)
+      return { stocks: sortedStocks }
+    })
+  }
+
+  sortByPrice = () => {
+    this.setState(prevState => {
+      let stocks = [...prevState.stocks]
+      let sortedStocks = stocks.sort((a, b) => (a.price > b.price) ? 1 : -1)
+      return { stocks: sortedStocks }
+    })
+  }
+
   handleBuyStock = (buyStock) => {
     let stocks = [...this.state.stocks]
     let idx = stocks.indexOf(buyStock)
@@ -49,7 +65,9 @@ class App extends Component {
           allStocks={this.state}
           handleBuyStock={this.handleBuyStock}
           handleSellStock={this.handleSellStock}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+          sortByPrice={this.sortByPrice}
+          sortByTicker={this.sortByTicker} />
       </div>
     );
   }

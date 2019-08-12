@@ -10,7 +10,7 @@ class MainContainer extends Component {
   render() {
     return (
       <div>
-        <SearchBar onChange={this.props.onChange} />
+        <SearchBar sortByPrice={this.props.sortByPrice} sortByTicker={this.props.sortByTicker} />
 
         <div className="row">
           <div className="col-8">
