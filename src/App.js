@@ -67,9 +67,9 @@ class App extends Component {
   }
 
   handleBuyStock = (buyStock) => {
-    let stocks = [...this.state.stocks]
+    let stocks = [...this.state.savedStocks]
     let idx = stocks.indexOf(buyStock)
-    let newPortfolio = this.state.portfolio
+    let newPortfolio = this.state.savedPortfolio
     newPortfolio.push(stocks.splice(idx, 1)[0])
     this.setState({
       stocks: stocks,
@@ -80,9 +80,9 @@ class App extends Component {
   }
 
   handleSellStock = (sellStock) => {
-    let portfolio = [...this.state.portfolio]
+    let portfolio = [...this.state.savedPortfolio]
     let idx = portfolio.indexOf(sellStock)
-    let newStocks = this.state.stocks
+    let newStocks = this.state.savedStocks
     newStocks.push(portfolio.splice(idx, 1)[0])
     this.setState({
       stocks: newStocks,
