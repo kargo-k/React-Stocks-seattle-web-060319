@@ -9,9 +9,7 @@ class App extends Component {
     super()
     this.state = {
       stocks: [],
-      portfolio: [],
-      sortBy: '',
-      filterType: ''
+      portfolio: []
     }
   }
 
@@ -25,43 +23,6 @@ class App extends Component {
       .then(data => {
         this.setState({ stocks: data })
       })
-  }
-
-  sortStocks = () => {
-    if (this.state.sortBy === 'Price') {
-      let sortedStocks = this.state.stocks.sort(this.comparePrice)
-    }
-    else if (this.state.sortBy === "Alphabetically") {
-      let sortedStocks = this.state.stocks.sort(this.compareTicker)
-    }
-    this.setState({
-      stocks: sortedStocks
-    })
-  }
-
-  comparePrice = (stockA, stockB) => {
-    let a = stockA.price
-    let b = stockB.price
-    return b - a
-  }
-
-  compareTicker = (stockA, stockB) => {
-    let a = stockA.ticker
-    let b = stockB.ticker
-    if (a < b) {
-      return -1
-    } else if (b < a) {
-      return 1
-    } else {
-      return 0
-    }
-  }
-
-  onChange = (ev) => {
-    this.setState({
-      sortBy: ev.target.value
-    })
-    this.sortStocks()
   }
 
   handleBuyStock = (buyStock) => {
