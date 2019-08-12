@@ -4,7 +4,6 @@ import Stock from '../components/Stock'
 class StockContainer extends Component {
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <h2>Stocks</h2>

@@ -10,8 +10,8 @@ class App extends Component {
     this.state = {
       stocks: [],
       portfolio: [],
-      sortBy: '',
-      filterType: ''
+      savedStocks: [],
+      savedPortfolio: []
     }
   }
 
@@ -23,61 +23,73 @@ class App extends Component {
     fetch(API)
       .then(resp => resp.json())
       .then(data => {
-        this.setState({ stocks: data })
+        this.setState({ stocks: data, savedStocks: data })
       })
   }
 
-  sortStocks = () => {
-    if (this.state.sortBy === 'Price') {
-      let sortedStocks = this.state.stocks.sort(this.comparePrice)
-    }
-    else if (this.state.sortBy === "Alphabetically") {
-      let sortedStocks = this.state.stocks.sort(this.compareTicker)
-    }
-    this.setState({
-      stocks: sortedStocks
+  sortByTicker = () => {
+    this.setState(prevState => {
+      let stocks = [...prevState.stocks]
+      let portfolio = [...prevState.portfolio]
+      let sortedStocks = stocks.sort((a, b) => (a.ticker > b.ticker) ? 1 : -1)
+      let sortedPortfolio = portfolio.sort((a, b) => (a.ticker > b.ticker) ? 1 : -1)
+      return { stocks: sortedStocks, portfolio: sortedPortfolio }
     })
   }
 
-  comparePrice = (stockA, stockB) => {
-    let a = stockA.price
-    let b = stockB.price
-    return b - a
-  }
-
-  compareTicker = (stockA, stockB) => {
-    let a = stockA.ticker
-    let b = stockB.ticker
-    if (a < b) {
-      return -1
-    } else if (b < a) {
-      return 1
-    } else {
-      return 0
-    }
-  }
-
-  onChange = (ev) => {
-    this.setState({
-      sortBy: ev.target.value
+  sortByPrice = () => {
+    this.setState(prevState => {
+      let stocks = [...prevState.stocks]
+      let portfolio = [...prevState.portfolio]
+      let sortedStocks = stocks.sort((a, b) => (a.price > b.price) ? 1 : -1)
+      let sortedPortfolio = portfolio.sort((a, b) => (a.price > b.price) ? 1 : -1)
+      return { stocks: sortedStocks, portfolio: sortedPortfolio }
     })
-    this.sortStocks()
+  }
+
+  filterStocks = (e) => {
+    e.persist()
+    this.setState(prevState => {
+      let stocks = [...prevState.savedStocks]
+      let portfolio = [...prevState.savedPortfolio]
+      let filteredStocks = stocks.filter(stock => {
+        if (stock.type === e.target.value) {
+          return stock
+        }
+      })
+      let filteredPortfolio = portfolio.filter(stock => {
+        if (stock.type === e.target.value) {
+          return stock
+        }
+      })
+      return { stocks: filteredStocks, portfolio: filteredPortfolio }
+    })
   }
 
   handleBuyStock = (buyStock) => {
-    let stocks = [...this.state.stocks]
+    let stocks = [...this.state.savedStocks]
     let idx = stocks.indexOf(buyStock)
-    let newPortfolio = this.state.portfolio
+    let newPortfolio = this.state.savedPortfolio
     newPortfolio.push(stocks.splice(idx, 1)[0])
-    this.setState({ stocks: stocks, portfolio: newPortfolio })
+    this.setState({
+      stocks: stocks,
+      savedStocks: stocks,
+      portfolio: newPortfolio,
+      savedPortfolio: newPortfolio
+    })
   }
 
   handleSellStock = (sellStock) => {
-    let portfolio = [...this.state.portfolio]
+    let portfolio = [...this.state.savedPortfolio]
     let idx = portfolio.indexOf(sellStock)
-    let newStocks = this.state.stocks
+    let newStocks = this.state.savedStocks
     newStocks.push(portfolio.splice(idx, 1)[0])
-    this.setState({ stocks: newStocks, portfolio: portfolio })
+    this.setState({
+      stocks: newStocks,
+      savedStocks: newStocks,
+      portfolio: portfolio,
+      savedPortfolio: portfolio
+    })
   }
 
   render() {
@@ -88,7 +100,10 @@ class App extends Component {
           allStocks={this.state}
           handleBuyStock={this.handleBuyStock}
           handleSellStock={this.handleSellStock}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+          sortByPrice={this.sortByPrice}
+          sortByTicker={this.sortByTicker}
+          filterStocks={this.filterStocks} />
       </div>
     );
   }
